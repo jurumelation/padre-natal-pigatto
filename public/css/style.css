@@ -15,7 +15,6 @@ body {
 .main{
     display: 100%;
     background-color: azure;
-
 }
 
 .container{
@@ -65,43 +64,4 @@ section.module.parallax h1{
 
 .area-1{
     visibility: hidden;
-}
-
-#histórica {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.container-area-1 {
-    display: flex;
-    width: 90%;
-}
-
-.container-area-1-historia {
-    text-align: center;
-    width: 50%;
-    background: rgb(185, 175, 163);
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    padding-left: 2%;
-    padding-top: 2%;
-}
-
-.container-area-1-images {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    background: rgb(185, 175, 163);
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-}
-
-.container-area-1-images-files {
-    width: 85%;
-    height: 45%;
-    border-radius: 10px;
-    box-shadow: 5px 5px 15px rgba(20, 19, 18, 0.7);
 }
