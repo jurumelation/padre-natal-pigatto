@@ -65,3 +65,18 @@ section.module.parallax h1{
 .area-1{
     visibility: hidden;
 }
+
+#histórica {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-area-1 {
+    text-align: center;
+    width: 90%;
+    padding: 2%;
+    background-color: rgb(207, 195, 180);
+    border-radius: 30px;
+    box-shadow: 5px 5px 15px rgba(34, 32, 30, 0.7);
+}
