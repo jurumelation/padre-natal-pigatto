@@ -11,10 +11,12 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Padre Natal Pigatto</title>
+        <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore-compat.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
-        <link href="styles/index.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+        <link href="styles/index.css" rel="stylesheet">
     </head>
 
     <!-- ================================================== -->
@@ -72,7 +74,20 @@
             <!-- Comunicados. -->
             <section id="comunicados" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
                 <h1 class="titulo-comunicados text-3xl font-bold mb-4 opacity-0">Comunicados 📢</h1>
-                <!-- Aqui irão os comunicados serão injetados de forma dinâmica. -->
+                <div class="comunicados-carrousel opacity-0">
+                    <div class="swiper comunicados-swiper mt-6">
+                        <div class="swiper-wrapper">
+
+                            <!-- ================================================== -->
+
+                            <!-- Aqui irão os comunicados serão injetados de forma dinâmica. -->
+
+                            <!-- ================================================== -->
+
+                        </div>
+                        <div class="swiper-pagination mt-4"></div>
+                    </div>
+                </div>
             </section>
 
             <!-- ================================================== -->
@@ -90,33 +105,44 @@
                 <h1 class="titulo-equipe text-3xl font-bold mb-4">Equipe 👥</h1>
                 <div class="equipe-carrousel opacity-0">
                     <div class="swiper equipe-swiper mt-6">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide flex justify-center">
-                            <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
-                                <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-blue-300 shadow mb-6">
-                                <h3 class="font-semibold text-xl">Prof. 1</h3>
-                                <p class="text-base text-gray-600 mt-2">
-                                    Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
-                                    a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
-                                    que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
-                                    local e também nomeia uma importante avenida do município.
-                                </p>
+                        <div class="swiper-wrapper">
+
+                            <!-- ================================================== -->
+
+                            <!-- Professor 1. -->
+                            <div class="swiper-slide flex justify-center">
+                                <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
+                                    <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-[rgb(225,55,90)] shadow mb-6">
+                                    <h3 class="font-semibold text-xl">Prof. 1</h3>
+                                    <p class="text-base text-gray-600 mt-2">
+                                        Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
+                                        a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
+                                        que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
+                                        local e também nomeia uma importante avenida do município.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="swiper-slide flex justify-center">
-                            <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
-                                <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-blue-300 shadow mb-6">
-                                <h3 class="font-semibold text-xl">Prof. 2</h3>
-                                <p class="text-base text-gray-600 mt-2">
-                                    Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
-                                    a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
-                                    que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
-                                    local e também nomeia uma importante avenida do município.
-                                </p>
+
+                            <!-- ================================================== -->
+
+                            <!-- Professor 2. -->
+                            <div class="swiper-slide flex justify-center">
+                                <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
+                                    <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-[rgb(225,55,90)] shadow mb-6">
+                                    <h3 class="font-semibold text-xl">Prof. 2</h3>
+                                    <p class="text-base text-gray-600 mt-2">
+                                        Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
+                                        a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
+                                        que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
+                                        local e também nomeia uma importante avenida do município.
+                                    </p>
+                                </div>
                             </div>
+
+                            <!-- ================================================== -->
+
                         </div>
-                    </div>
-                    <div class="swiper-pagination mt-4"></div>
+                        <div class="swiper-pagination mt-4"></div>
                     </div>
                 </div>
             </section>
@@ -184,7 +210,7 @@
     <!-- ================================================== -->
 
     <!-- Script. -->
-    <script src="scripts/index.js"></script>
+    <script type="module" src="scripts/index.js"></script>
 
     <!-- ================================================== -->
 
