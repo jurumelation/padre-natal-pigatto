@@ -1,5 +1,5 @@
 import { db } from '../../firebase/firebase-config.js';
-import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import {  collection, addDoc, serverTimestamp, setDoc, doc   } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
 const form = document.querySelector('form');
 const tituloInput = document.getElementById('titulo');
@@ -25,10 +25,26 @@ form.addEventListener('submit', async (event) => {
     imagens = document.getElementById('imagensAlbum').files;
   }
 
+  if (tipo === 'carrossel' && imagens.length > 3) {
+    mostrarToast('Selecione no máximo 3 imagens para o carrossel.', false);
+    return;
+  }
+  if (!imagens || imagens.length === 0) {
+    mostrarToast('Nenhuma imagem selecionada.', false);
+    return;
+  }
+
+  const botao = form.querySelector('button[type="submit"]');
+  botao.disabled = true;
+  botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+
   try {
     const urls = await uploadParaImgBB(imagens);
 
-    await addDoc(collection(db, 'postagens'), {
+    const agora = new Date();
+    const nomeDocumento = `postagem-${agora.toLocaleDateString('pt-BR').replace(/\//g, '-')}-${agora.toLocaleTimeString('pt-BR').replace(/:/g, '-')}`;
+
+    await setDoc(doc(db, 'postagens', nomeDocumento), {
       titulo,
       descricao,
       tipo,
@@ -36,11 +52,14 @@ form.addEventListener('submit', async (event) => {
       criadoEm: serverTimestamp()
     });
 
-    alert('Postagem criada com sucesso!');
+    mostrarToast('Postagem criada com sucesso!', true);
     form.reset();
   } catch (error) {
     console.error('Erro ao criar postagem:', error);
-    alert('Erro ao criar postagem. Veja o console.');
+    mostrarToast('Erro ao criar postagem. Veja o console.', false);
+  } finally {
+    botao.disabled = false;
+    botao.innerHTML = 'Postar';
   }
 });
 
@@ -76,4 +95,16 @@ function converterParaBase64(file) {
     reader.onerror = error => reject(error);
     reader.readAsDataURL(file);
   });
+}
+
+function mostrarToast(mensagem, sucesso = true) {
+  const toastElement = document.getElementById('toastFeedback');
+  const toastMensagem = document.getElementById('toastMensagem');
+  toastMensagem.textContent = mensagem;
+
+  toastElement.classList.remove('bg-success', 'bg-danger');
+  toastElement.classList.add(sucesso ? 'bg-success' : 'bg-danger');
+
+  const toast = new bootstrap.Toast(toastElement);
+  toast.show();
 }
