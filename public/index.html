@@ -6,26 +6,15 @@
 
     <!-- ================================================== -->
 
-    <!-- Styles. -->
-    <style>
-        @keyframes fade-in {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade-in {
-            animation: fade-in 2s ease-out;
-        }
-    </style>
-
-    <!-- ================================================== -->
-
     <!-- Header. -->
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Escola</title>
+        <title>Padre Natal Pigatto</title>
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="styles/index.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     </head>
 
     <!-- ================================================== -->
@@ -37,10 +26,24 @@
 
         <!-- Navbar -->
         <header class="fixed top-0 w-full bg-white shadow z-50">
-            <nav class="flex justify-around p-4">
-                <a href="#historia" class="hover:text-blue-500">História</a>
-                <a href="#equipe" class="hover:text-blue-500">Equipe</a>
-                <a href="#contato" class="hover:text-blue-500">Contato</a>
+            <nav class="flex flex-wrap justify-around gap-2 sm:gap-4 p-4 text-center">
+                <a href="#inicio" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>Início <span class="sm:inline">📌</span></strong></a>
+                <a href="#comunicados" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>Comunicados <span class="sm:inline">📢</span></strong>
+                </a>
+                <a href="#postagens" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>Postagens <span class="sm:inline">🤳</span></strong>
+                </a>
+                <a href="#equipe" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>Equipe <span class="sm:inline">👥</span></strong>
+                </a>
+                <a href="#contato" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>Contato <span class="sm:inline">📞</span></strong>
+                </a>
+                <a href="#historia" class="nav-bar-links text-xs sm:text-sm">
+                    <strong>História <span class="sm:inline">📖</span></strong>
+                </a>
             </nav>
         </header>
 
@@ -52,42 +55,118 @@
             <!-- ================================================== -->
 
             <!-- Início. -->
-            <section id="inicio" class="relative min-h-screen bg-cover bg-center" style="background-image: url('images/escola.jpg');">
+            <section id="inicio" class="relative h-screen bg-cover bg-center" style="background-image: url('images/index_inicio.jpg');">
                 <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-                <div class="relative z-10 flex items-center justify-center h-full">
-                    <h1 class="text-white text-4xl md:text-6xl font-bold animate-fade-in">
+                <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                    <h1 class="titulo-inicio text-white text-2xl md:text-5xl font-bold opacity-0">
                         Escola Municipal Padre Natal Pigatto
                     </h1>
+                    <p class="subtitulo-inicio text-white mt-4 text-lg md:text-2xl opacity-0">
+                        Família + Escola = Parceria Perfeita ❤
+                    </p>
                 </div>
             </section>
 
             <!-- ================================================== -->
 
-            <!-- História da escola. -->
-            <section id="historia" class="min-h-screen p-8 bg-gray-100">
-                <h1 class="text-3xl font-bold mb-4">Nossa História</h1>
-                <p>Texto da história...</p>
+            <!-- Comunicados. -->
+            <section id="comunicados" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
+                <h1 class="titulo-comunicados text-3xl font-bold mb-4 opacity-0">Comunicados 📢</h1>
+                <!-- Aqui irão os comunicados serão injetados de forma dinâmica. -->
+            </section>
+
+            <!-- ================================================== -->
+
+            <!-- Postagens. -->
+            <section id="postagens" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
+                <h1 class="titulo-postagens text-3xl font-bold mb-4 opacity-0">Postagens 🤳</h1>
+                <!-- Aqui irão as postagens serão injetadas de forma dinâmica. -->
             </section>
 
             <!-- ================================================== -->
 
             <!-- Equipe. -->
-            <section id="equipe" class="min-h-screen p-8 bg-white">
-                <h1 class="text-3xl font-bold mb-4">Equipe</h1>
-                <p>Texto sobre a equipe...</p>
+            <section id="equipe" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
+                <h1 class="titulo-equipe text-3xl font-bold mb-4">Equipe 👥</h1>
+                <br>
+                <div class="equipe-carrousel opacity-0">
+                    <div class="swiper equipe-swiper mt-6">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide flex justify-center">
+                            <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
+                                <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-blue-300 shadow mb-6">
+                                <h3 class="font-semibold text-xl">Prof. 1</h3>
+                                <p class="text-base text-gray-600 mt-2">
+                                    Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
+                                    a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
+                                    que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
+                                    local e também nomeia uma importante avenida do município.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="swiper-slide flex justify-center">
+                            <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
+                                <img src="images/index_historia_2.jpg" alt="Nome" class="w-28 h-28 rounded-full object-cover border-4 border-blue-300 shadow mb-6">
+                                <h3 class="font-semibold text-xl">Prof. 2</h3>
+                                <p class="text-base text-gray-600 mt-2">
+                                    Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
+                                    a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
+                                    que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
+                                    local e também nomeia uma importante avenida do município.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-pagination mt-4"></div>
+                    </div>
+                </div>
             </section>
 
             <!-- ================================================== -->
 
             <!-- Contato. -->
-            <section id="contato" class="min-h-screen p-8 bg-gray-100">
-                <h1 class="text-3xl font-bold mb-4">Contato</h1>
-                <form class="flex flex-col gap-4">
-                    <input type="text" placeholder="Nome" class="p-2 border rounded" />
-                    <input type="email" placeholder="Email" class="p-2 border rounded" />
-                    <textarea placeholder="Mensagem" class="p-2 border rounded"></textarea>
-                    <button type="submit" class="bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Enviar</button>
-                </form>
+            <section id="contato" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
+                <h1 class="titulo-contato text-3xl font-bold mb-4 opacity-0">Contato 📞</h1>
+                <a class="links" href="https://www.instagram.com/pigattonatal/"><strong>Instagram</strong></a>
+            </section>
+
+            <!-- ================================================== -->
+
+            <!-- História da escola. -->
+            <section id="historia" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
+                <h1 class="historia-titulo text-3xl font-bold mb-4 opacity-0">Nossa História 📖</h1>
+                <p class="historia-paragrafo opacity-0">
+                    Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
+                    a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
+                    que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
+                    local e também nomeia uma importante avenida do município.
+                </p>
+                <br>
+                <div class="historia-carrousel opacity-0">
+                    <div class="swiper historia-swiper mt-6">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_1.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_2.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_3.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_4.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_5.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                            <div class="swiper-slide">
+                                <img src="images/index_historia_6.jpg" class="rounded shadow-lg w-full sm:h-72 md:h-80 lg:h-96 xl:h-[40rem] object-contain">
+                            </div>
+                        </div>
+                        <div class="swiper-pagination mt-4"></div>
+                    </div>
+                </div>
             </section>
 
             <!-- ================================================== -->
@@ -99,6 +178,11 @@
 
     <!-- Fecha o Body. -->
     </body>
+
+    <!-- ================================================== -->
+
+    <!-- Script. -->
+    <script src="scripts/index.js"></script>
 
     <!-- ================================================== -->
 
