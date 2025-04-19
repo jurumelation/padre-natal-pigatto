@@ -136,6 +136,7 @@ class PageController {
             locale: 'pt-br',
             height: 'auto',
             events: eventos,
+            noEventsContent: 'Nenhum evento para exibir.',
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
