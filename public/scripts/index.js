@@ -90,6 +90,10 @@ class AnimationsController {
                     el: ".swiper-pagination",
                     clickable: true,
                 },
+                autoplay: {
+                    delay: 4000,
+                    disableInteraction: false,
+                },
             });
         });
 
