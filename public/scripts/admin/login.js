@@ -17,7 +17,7 @@ loginButton.addEventListener('click', async (event) => {
     const user = userCredential.user;
     console.log('Login realizado com sucesso:', user);
 
-    window.location.href = './pages/admin/post.html';
+    window.location.href = '../../pages/admin/post.html';
 
   } catch (error) {
     console.error('Erro ao fazer login:', error.message);
