@@ -18,7 +18,6 @@ loginButton.addEventListener('click', async (event) => {
     console.log('Login realizado com sucesso:', user);
 
     window.location.href = '../../pages/admin/post.html';
-
   } catch (error) {
     console.error('Erro ao fazer login:', error.message);
     alert('Email ou senha inválidos.'); // Mostrando alerta em caso de erro
