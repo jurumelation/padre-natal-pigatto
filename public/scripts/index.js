@@ -30,7 +30,7 @@ class PageController {
             sessao: "#postagens",
             dados: [
                 { classe: ".titulo-postagens", animacao: "animate-fade-in-1" },
-                { classe: ".postagens-carrousel", animacao: "animate-fade-in-2" }
+                { classe: ".postagens-lista", animacao: "animate-fade-in-2" }
             ]
         },
         {
@@ -61,7 +61,6 @@ class PageController {
     carrousels = [
         { classe: ".historia-swiper", autoplay: true },
         { classe: ".equipe-swiper", autoplay: true },
-        { classe: ".postagens-swiper", autoplay: false }
     ];
 
     // ================================================== \\
@@ -372,48 +371,66 @@ class PageController {
 
     // ~~ Método para coletar postagens do Firebase.
     async carregarPostagens() {
-        const container = document.querySelector('.postagens-swiper .swiper-wrapper');
-        const querySnapshot = await getDocs(collection(db, 'postagens'));
-        querySnapshot.forEach(doc => {
-            const data = doc.data();
-            const imagensHTML = (data.imagens || []).map(imagem => `
-                <div class="swiper-slide">
-                    <img src="${imagem}" class="w-full h-64 object-cover border-4 border-[rgb(155,182,255)] shadow" />
-                </div>
-            `).join('');
-            const comunicadoHTML = `
-                <div class="swiper-slide flex justify-center">
-                    <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[30rem] flex flex-col items-center text-center">
-                        <div class="swiper postagens-imagens-swiper w-full mb-6 overflow-hidden">
-                            <div class="swiper-wrapper">
-                                ${imagensHTML}
-                            </div>
-                            <div class="swiper-pagination mt-2"></div>
+        const container = document.querySelector('.postagens-lista');
+        container.innerHTML = '';
+        window.postagensStore = [];
+        try {
+            const querySnapshot = await getDocs(collection(db, 'postagens'));
+            const docs = querySnapshot.docs;
+            docs.forEach((doc, index) => {
+                const data = doc.data();
+                const primeiraImagem = data.imagens?.[0] || null;
+                const postHTML = `
+                    <div class="cursor-pointer flex items-center gap-4 bg-white p-4 rounded-xl shadow border border-blue-300 hover:bg-blue-50 transition"
+                        onclick="window.pageController.abrirModalPostagem(${index})">
+                        ${primeiraImagem
+                            ? `<img src="${primeiraImagem}" class="w-24 h-24 object-cover rounded-lg border border-blue-200" />`
+                            : `<div class="w-24 h-24 flex items-center justify-center bg-blue-100 rounded-lg text-blue-600 font-semibold">Sem imagem</div>`
+                        }
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-800">${data.titulo}</h3>
+                            <p class="text-sm text-gray-500">Postado em: ${data.data}</p>
                         </div>
-                        <h3 class="font-semibold text-xl">${data.titulo}</h3>
-                        <p class="text-base text-gray-600 mt-2">${data.data}</p>
-                        <p class="text-base text-gray-600 mt-2">${data.descricao}</p>
                     </div>
-                </div>
-            `;
-            container.insertAdjacentHTML('beforeend', comunicadoHTML);
-        });
-        document.querySelectorAll('.postagens-imagens-swiper').forEach(swiperEl => {
-            new Swiper(swiperEl, {
-                loop: true,
-                grabCursor: true,
-                spaceBetween: 20,
-                slidesPerView: 1,
-                pagination: {
-                    el: swiperEl.querySelector('.swiper-pagination'),
-                    clickable: true,
-                },
-                autoplay: {
-                    delay: 4000,
-                    disableOnInteraction: false
-                }
+                `;
+                container.insertAdjacentHTML('beforeend', postHTML);
+                window.postagensStore.push(data);
             });
+        } catch (error) {
+            console.error('Erro ao carregar postagens:', error);
+            container.innerHTML = `<p class="text-red-500">Erro ao carregar postagens. Tente novamente mais tarde.</p>`;
+        }
+    }
+
+    // ================================================== \\
+
+    // ~~ Função para abrir o modal de postagem.
+    abrirModalPostagem(index) {
+        const data = window.postagensStore[index];
+        document.getElementById('modalPostagemTitulo').textContent = data.titulo;
+        document.getElementById('modalPostagemData').textContent = `Postado em: ${data.data}`;
+        document.getElementById('modalPostagemDescricao').textContent = data.descricao || '';
+        const swiperWrapper = document.querySelector('#modalPostagemSwiper .swiper-wrapper');
+        swiperWrapper.innerHTML = (data.imagens || []).map(img => `
+            <div class="swiper-slide">
+                <img src="${img}" class="w-full h-64 object-contain rounded border border-blue-200 bg-white p-2" />
+            </div>
+        `).join('');
+        window.modalPostagemSwiper = new Swiper('#modalPostagemSwiper', {
+            loop: true,
+            grabCursor: true,
+            spaceBetween: 20,
+            slidesPerView: 1,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false
+            }
         });
+        document.getElementById('modalPostagem').classList.remove('hidden');
     }
 
     // ================================================== \\
@@ -424,6 +441,9 @@ class PageController {
 
 // ~~ Cria instância.
 const pageController = new PageController();
+
+// ~~ Deixa disponível para o HTML chamar.
+window.pageController = pageController;
 
 // ~~ Inicia funções.
 pageController.carregarComunicados();

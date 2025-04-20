@@ -86,19 +86,21 @@
 
             <!-- Postagens. -->
             <section id="postagens" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
-                <h1 class="titulo-postagens text-3xl font-bold mb-4 opacity-0">Postagens 🤳</h1>
-                <div class="postagens-carrousel opacity-0">
-                    <div class="swiper postagens-swiper mt-6">
-                        <div class="swiper-wrapper">
-
-                            <!-- ================================================== -->
-
-                            <!-- Aqui as postagens serão injetadas de forma dinâmica. -->
-
-                            <!-- ================================================== -->
-
+                <h1 class="titulo-postagens text-3xl font-bold mb-4">Postagens 🤳</h1>
+                <div class="postagens-lista opacity-0 h-[75vh] overflow-y-auto space-y-6 pr-2"></div>
+                    <div id="modalPostagem" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+                        <div class="flex items-center justify-center w-full h-full p-4">
+                            <div class="bg-white rounded-2xl p-6 max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
+                                <button onclick="document.getElementById('modalPostagem').classList.add('hidden')" class="absolute top-4 right-4 text-xl font-bold">&times;</button>
+                                <h2 id="modalPostagemTitulo" class="text-2xl font-semibold text-center mb-4"></h2>
+                                <p id="modalPostagemData" class="text-sm text-gray-500 text-center mb-6"></p>
+                                <div id="modalPostagemSwiper" class="swiper w-full mb-6">
+                                    <div class="swiper-wrapper"></div>
+                                    <div class="swiper-pagination mt-2"></div>
+                                </div>
+                                <p id="modalPostagemDescricao" class="text-gray-700 whitespace-pre-line"></p>
+                            </div>
                         </div>
-                        <div class="swiper-pagination mt-4"></div>
                     </div>
                 </div>
             </section>
