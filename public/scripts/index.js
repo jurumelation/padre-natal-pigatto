@@ -416,20 +416,25 @@ class PageController {
                 <img src="${img}" class="w-full h-64 object-contain rounded border border-blue-200 bg-white p-2" />
             </div>
         `).join('');
-        window.modalPostagemSwiper = new Swiper('#modalPostagemSwiper', {
-            loop: true,
-            grabCursor: true,
-            spaceBetween: 20,
-            slidesPerView: 1,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            },
-            autoplay: {
-                delay: 4000,
-                disableOnInteraction: false
-            }
-        });
+        if (window.modalPostagemSwiper && typeof window.modalPostagemSwiper.destroy === 'function') {
+            window.modalPostagemSwiper.destroy(true, true);
+        }
+        setTimeout(() => {
+            window.modalPostagemSwiper = new Swiper('#modalPostagemSwiper', {
+                loop: true,
+                grabCursor: true,
+                spaceBetween: 20,
+                slidesPerView: 1,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true
+                },
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false
+                }
+            });
+        }, 0);
         document.getElementById('modalPostagem').classList.remove('hidden');
     }
 
