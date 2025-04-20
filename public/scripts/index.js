@@ -115,54 +115,141 @@ class PageController {
 
     // ~~ Método para coletar comunicados do Firebase.
     async carregarComunicados() {
+
+        // ~~ Cria lista vazia para armazenar os eventos.
         const eventos = [];
+
+        // ~~ Coleta os comunicados e armazena na variável "querySnapshot".
         const querySnapshot = await getDocs(collection(db, 'comunicados'));
+
+        // ~~ Para cada comunicado...
         querySnapshot.forEach(doc => {
+
+            // ~~ Coleta os dados do comunicado.
             const data = doc.data();
+
+            // ~~ Se o comunicado possuir o campo data...
             if (data.data) {
+
+                // ~~ Cria um dicionário para as informações e armazena dentro da lista de eventos criada acima.
                 eventos.push({
+
+                    // ~~ Adiciona o título do comunicado.
                     title: data.titulo,
+
+                    // ~~ Adiciona a data do comunicado.
                     date: data.data,
+
+                    // ~~ Adiciona a descrição e as imagens.
                     extendedProps: {
                         descricao: data.descricao,
+
+                        // ~~ Se não possuir imagens, armazena um array vazio.
                         imagens: data.imagens || []
                     }
                 });
             }
         });
+
+        // ~~ A lista de eventos neste momento está com todos os comunicados dentro dela. Sendo cada um, um dicionário
+        // ~~ contendo todos os seus campos.
+
+        // ~~ Encontra o elemento "calendario" que está no HTML para alocar o calendário dentro dessa div.
         const calendarioEl = document.getElementById('calendario');
+
+        // ~~ Cria uma instância do calendário usando o CDN do jsDelivr. Cria usando o elemento "calendarioEl".
         const calendar = new FullCalendar.Calendar(calendarioEl, {
+
+            // ~~ Aqui define algumas opções do calendário.
+
+            // ~~ Começa mostrando a grade de calendário.
             initialView: 'dayGridMonth',
+
+            // ~~ Local Brasil.
             locale: 'pt-br',
+
+            // ~~ Altura define para auto.
             height: 'auto',
+
+            // ~~ Atribui ao calendário a lista de eventos (comunicados) que foi criada acima.
+            // ~~ O próprio calendário identifica a chave "date" pra cada item na lista e exibe
+            // ~~ os eventos na grade de dias do calendário, correspondendo a data da chave "date",
+            // ~~ que deve estar no formato "yyyy-mm-dd" para funcionar.
             events: eventos,
+
+            // ~~ Quando não há nenhum evento para exibir, mostra esse texto padrão.
             noEventsContent: 'Nenhum evento para exibir.',
+
+            // ~~ Aqui configura o cabeçalho do calendário com as opções de mudar o mês, o título no meio,
+            // ~~ e as opções de exibir no formato de grade ou lista.
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,listMonth'
             },
+
+            // ~~ Aqui os textos padrão para os botões.
             buttonText: {
                 today: 'Hoje',
                 month: 'Mês',
                 list: 'Lista'
             },
+
+            // ~~ Ao clicar em um dia na grade de calendários, executa essa função.
+            // ~~ O parâmetro "info" é passado automaticamente pelo calendário, contendo informações
+            // ~~ do dia em que foi clicado.
             dateClick: function(info) {
+
+                // ~~ Coleta a data do dia que foi clicado.
                 const dataSelecionada = info.dateStr;
+
+                // ~~ Filtra a lista de eventos, coletando apenas os que são da mesma data do dia
+                // ~~ que foi selecionado.
                 const eventosDoDia = eventos.filter(ev => ev.date === dataSelecionada);
+
+                // ~~ Se não possuir nenhum evento no dia, não faz nada e retorna.
                 if (eventosDoDia.length === 0) return;
+
+                // ~~ Encontra o elemento "modalTitulo" no HTML.
                 const modalTitulo = document.getElementById('modalTitulo');
+
+                // ~~ Encontra o elemento "modalImagens" no HTML.
                 const modalImagens = document.getElementById('modalImagens');
-                modalTitulo.textContent = `Comunicados do dia ${new Date(dataSelecionada).toLocaleDateString('pt-BR')}`;
+
+                // ~~ Injeta no "modalTitulo" a data dos comunicados, convertendo para o formato "dd/mm/yyyy".
+                modalTitulo.textContent = `Comunicados para o dia ${new Date(dataSelecionada).toLocaleDateString('pt-BR')}`;
+
+                // ~~ Alinha o título no meio do modal.
                 modalTitulo.style.textAlign = "center";
+
+                // ~~ Injeta no "modalImagens" um texto vazio para resetá-lo.
                 modalImagens.innerHTML = '';
+
+                // ~~ Para cada evento do dia, pega o evento e cria um index começando do 0 e então...
                 eventosDoDia.forEach((ev, index) => {
+
+                    // ~~ Cria uma div para abrigar os dados do evento.
                     const bloco = document.createElement('div');
+
+                    // ~~ Define classes do TailWind para a div.
                     bloco.className = 'bg-gray-50 p-4 rounded-xl shadow border border-[rgb(155,182,255)]';
+
+                    // ~~ Cria o título onde será injetado o título do evento.
                     const titulo = `<h3 class="text-xl font-bold mb-2">${ev.title}</h3>`;
+
+                    // ~~ Cria a descrição onde seja injetado a descrição que está dentro da chave "extendedProps".
+                    // ~~ Se não tiver descrição, injeta um texto vazio.
                     const descricao = `<p class="text-gray-600 mb-4">${ev.extendedProps.descricao || ''}</p>`;
+
+                    // ~~ Limpa as imagens.
                     let imagensHTML = '';
+
+                    // ~~ Verifica se há imagens no evento.
                     if ((ev.extendedProps.imagens || []).length > 0) {
+
+                        // ~~ Se tiver imagem, cria uma div com o swiper para criar cards pras fotos.
+                        // ~~ Cada comunicado recebe dinamicamente um "index". E pra cada imagem do evento,
+                        // ~~ cria um card.
                         imagensHTML = `
                             <div class="swiper swiper-comunicado-${index} w-full">
                                 <div class="swiper-wrapper">
@@ -176,12 +263,26 @@ class PageController {
                             </div>
                         `;
                     }
+
+                    // ~~ Injeta na div o título, descrição e as imagens que ficarão como cards.
                     bloco.innerHTML = titulo + descricao + imagensHTML;
+
+                    // ~~ Pega a div usada para armazenar os dados do evento, e injeta dentro do modal.
                     modalImagens.appendChild(bloco);
+
+                    // ~~ Aqui ocorre o reset do loop, até acabar a lista de eventos e todos estarem no modal.
                 });
+
+                // ~~ Usa "setTimeout" para esperar os elementos do DOM serem carregados.
                 setTimeout(() => {
+
+                    // ~~ Para cada evento do dia, ignora o evento e cria um index começando do 0 e então...
                     eventosDoDia.forEach((_, index) => {
+
+                        // ~~ Inicia o swiper para o evento que foi adicionado no modal, com referência no index.
                         new Swiper(`.swiper-comunicado-${index}`, {
+
+                            // ~~ Define configurações do swiper.
                             loop: true,
                             grabCursor: true,
                             slidesPerView: 1,
@@ -197,16 +298,30 @@ class PageController {
                         });
                     });
                 }, 0);
+
+                // ~~ Por fim, depois de tudo criado e o swiper ligado, exibe o modal.
                 document.getElementById('modalComunicado').classList.remove('hidden');
             },
+
+            // ~~ Ao clicar em algum evento da lista, executa essa função.
+            // ~~ O parâmetro "info" é passado automaticamente pelo calendário, contendo informações
+            // ~~ do dia que foi clicado.
             eventClick: function(info) {
+
+                // ~~ Coleta os dados do evento que foi clicado.
                 const evento = info.event;
+
+                // ~~ Coleta o título dele e os outros dados (descrição e imagens).
                 const { title, extendedProps } = evento;
+
+                // ~~ Para cada imagem, cria um card.
                 const imagensHTML = (extendedProps.imagens || []).map(img => `
                     <div class="swiper-slide">
                         <img src="${img}" class="w-full h-64 object-contain rounded-xl border border-[rgb(155,182,255)] shadow" />
                     </div>
                 `).join('');
+
+                // ~~ Cria o carrosel se houver imagens. Se não houver, armazena um texto vazio.
                 const carrosselHTML = imagensHTML ? `
                     <div class="swiper comunicados-swiper w-full mb-4">
                         <div class="swiper-wrapper">
@@ -215,13 +330,21 @@ class PageController {
                         <div class="swiper-pagination mt-2"></div>
                     </div>
                 ` : '';
+
+                // ~~ Coleta o modal que está no HTML que será usado para abrigar os dados.
                 const modalContent = document.getElementById('comunicadoModalContent');
+
+                // ~~ Injeta no modal os dados (título do evento, descrição e imagens se houverem).
                 modalContent.innerHTML = `
                     <h2 class="text-xl font-bold mb-2">${title}</h2>
                     <p class="text-gray-600 mb-4">${extendedProps.descricao || ''}</p>
                     ${carrosselHTML}
                 `;
+
+                // ~~ Exibe o modal.
                 document.getElementById('comunicadoModal').classList.remove('hidden');
+
+                // ~~ Se houver carrosel, liga o swiper.
                 if (imagensHTML) {
                     new Swiper('.comunicados-swiper', {
                         loop: true,
@@ -240,6 +363,8 @@ class PageController {
                 }
             }
         });
+
+        // ~~ Por fim, renderiza o calendário.
         calendar.render();
     }
 
