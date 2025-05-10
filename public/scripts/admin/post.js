@@ -149,8 +149,15 @@ function abrirModalEdicao(id, data) {
   document.getElementById('editTitulo').value = data.titulo || '';
   document.getElementById('editDescricao').value = data.descricao || '';
   idPostagemEditando = id;
-  imagensEditando = [...(data.imagens || [])]; // ← COPIA as imagens
+  imagensEditando = [...(data.imagens || [])];
 
+  renderizarImagensEditando();
+
+  const modal = new bootstrap.Modal(document.getElementById('modalEdicao'));
+  modal.show();
+}
+
+function renderizarImagensEditando() {
   const container = document.getElementById('editImagensContainer');
   container.innerHTML = '';
 
@@ -166,23 +173,19 @@ function abrirModalEdicao(id, data) {
 
     const btnExcluir = document.createElement('button');
     btnExcluir.textContent = 'x';
-    btnExcluir.type = 'button'; // ← PREVINE fechamento do modal
+    btnExcluir.type = 'button';
     btnExcluir.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
     btnExcluir.style.transform = 'translate(50%,-50%)';
     btnExcluir.addEventListener('click', () => {
-      imagensEditando.splice(index, 1); // ← remove da lista temporária
-      abrirModalEdicao(id, { ...data, imagens: imagensEditando }); // ← renderiza de novo
+      imagensEditando.splice(index, 1);
+      renderizarImagensEditando();
     });
 
     imgWrapper.appendChild(img);
     imgWrapper.appendChild(btnExcluir);
     container.appendChild(imgWrapper);
   });
-
-  const modal = new bootstrap.Modal(document.getElementById('modalEdicao'));
-  modal.show();
 }
-
 
 
 
