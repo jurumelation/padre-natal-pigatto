@@ -61,12 +61,12 @@ form.addEventListener('submit', async (event) => {
     data // aqui está a data em yyyy-mm-dd
   });
 
-    mostrarToast('Postagem criada com sucesso!');
+    mostrarToast('comunicados criada com sucesso!');
     form.reset();
     carregarPostagens();
   } catch (error) {
-    console.error('Erro ao criar postagem:', error);
-    mostrarToast('Erro ao criar postagem.', false);
+    console.error('Erro ao criar comunicados:', error);
+    mostrarToast('Erro ao criar comunicados.', false);
   } finally {
     botao.disabled = false;
     botao.innerHTML = 'Postar';
@@ -200,7 +200,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
   if (!idPostagemEditando) return;
 
   try {
-    const ref = doc(db, 'postagens', idPostagemEditando);
+    const ref = doc(db, 'comunicados', idPostagemEditando);
     const snapshot = await getDoc(ref);
     const dados = snapshot.exists() ? snapshot.data() : {};
 
@@ -211,14 +211,14 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
       imagens: imagensEditando
     });
 
-    mostrarToast('Postagem editada com sucesso!');
+    mostrarToast('comunicados editada com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
 
   } catch (error) {
     console.error('Erro ao editar:', error);
-    mostrarToast('Erro ao editar postagem.', false);
+    mostrarToast('Erro ao editar comunicados.', false);
   }
 });
 
@@ -228,7 +228,7 @@ document.getElementById('btnExcluirPostagem').addEventListener('click', async ()
   if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
 
   try {
-    await deleteDoc(doc(db, 'postagens', idPostagemEditando));
+    await deleteDoc(doc(db, 'comunicados', idPostagemEditando));
     mostrarToast('Postagem excluída com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
