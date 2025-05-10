@@ -1,6 +1,6 @@
 html, body {
-    --primary: rgb(225, 55, 90);
-    --secondary: rgb(255, 155, 175);
+    --primary: rgb(55, 134, 225);
+    --secondary: rgb(155, 182, 255);
     height: 100%;
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -65,7 +65,7 @@ label {
 
 .form-control:focus {
     background: #fff;
-    box-shadow: 0 0 0 2px #ff9baf;
+    box-shadow: 0 0 0 2px #3786e1;
     color: #000;
 }   
 
