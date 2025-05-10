@@ -185,6 +185,7 @@ function abrirModalEdicao(id, data) {
 
 
 
+
 // SALVAR ALTERAÇÃO
 document.getElementById('formEdicao').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -202,13 +203,14 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
       ...dados,
       titulo,
       descricao,
-      imagens: dados.imagens
+      imagens: imagensEditando
     });
 
     mostrarToast('Postagem editada com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
+
   } catch (error) {
     console.error('Erro ao editar:', error);
     mostrarToast('Erro ao editar postagem.', false);
