@@ -17,7 +17,8 @@ loginButton.addEventListener('click', async (event) => {
     const user = userCredential.user;
     console.log('Login realizado com sucesso:', user);
 
-    window.location.href = '../../pages/admin/post.html';
+ const modal = new bootstrap.Modal(document.getElementById('modalEscolha'));
+  modal.show();
   } catch (error) {
     console.error('Erro ao fazer login:', error.message);
     alert('Email ou senha inválidos.'); // Mostrando alerta em caso de erro
