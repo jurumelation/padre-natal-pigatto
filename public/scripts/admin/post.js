@@ -9,6 +9,10 @@ const descricaoInput = document.getElementById('descricao');
 const tipoSelect = document.getElementById('tipoPostagem');
 const botao = form.querySelector('button[type="submit"]');
 
+
+let imagensEditando = []; // Lista temporária de imagens durante a edição
+
+
 // ImgBB Key
 const imgbbApiKey = '1c831eb1cc58b3068fbda9cea52ac2e2';
 let idPostagemEditando = null;
@@ -145,10 +149,41 @@ function abrirModalEdicao(id, data) {
   document.getElementById('editTitulo').value = data.titulo || '';
   document.getElementById('editDescricao').value = data.descricao || '';
   idPostagemEditando = id;
+  imagensEditando = [...(data.imagens || [])]; // ← COPIA as imagens
+
+  const container = document.getElementById('editImagensContainer');
+  container.innerHTML = '';
+
+  imagensEditando.forEach((url, index) => {
+    const imgWrapper = document.createElement('div');
+    imgWrapper.className = 'position-relative';
+
+    const img = document.createElement('img');
+    img.src = url;
+    img.style.maxWidth = '100px';
+    img.style.borderRadius = '5px';
+    img.style.marginRight = '8px';
+
+    const btnExcluir = document.createElement('button');
+    btnExcluir.textContent = 'x';
+    btnExcluir.type = 'button'; // ← PREVINE fechamento do modal
+    btnExcluir.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
+    btnExcluir.style.transform = 'translate(50%,-50%)';
+    btnExcluir.addEventListener('click', () => {
+      imagensEditando.splice(index, 1); // ← remove da lista temporária
+      abrirModalEdicao(id, { ...data, imagens: imagensEditando }); // ← renderiza de novo
+    });
+
+    imgWrapper.appendChild(img);
+    imgWrapper.appendChild(btnExcluir);
+    container.appendChild(imgWrapper);
+  });
 
   const modal = new bootstrap.Modal(document.getElementById('modalEdicao'));
   modal.show();
 }
+
+
 
 // SALVAR ALTERAÇÃO
 document.getElementById('formEdicao').addEventListener('submit', async (e) => {
@@ -166,7 +201,8 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
     await setDoc(ref, {
       ...dados,
       titulo,
-      descricao
+      descricao,
+      imagens: dados.imagens
     });
 
     mostrarToast('Postagem editada com sucesso!');
