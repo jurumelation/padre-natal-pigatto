@@ -1,14 +1,19 @@
 import { db } from '../../firebase/firebase-config.js';
-import {  collection, addDoc, serverTimestamp, setDoc, doc   } from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
+import {
+  collection, doc, setDoc, getDoc, getDocs, deleteDoc, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js';
 
 const form = document.querySelector('form');
 const tituloInput = document.getElementById('titulo');
 const descricaoInput = document.getElementById('descricao');
 const tipoSelect = document.getElementById('tipoPostagem');
+const botao = form.querySelector('button[type="submit"]');
 
-// 👉 Coloque aqui sua API key do ImgBB
+// ImgBB Key
 const imgbbApiKey = '1c831eb1cc58b3068fbda9cea52ac2e2';
+let idPostagemEditando = null;
 
+// CRIAR NOVA POSTAGEM
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
 
@@ -26,7 +31,7 @@ form.addEventListener('submit', async (event) => {
   }
 
   if (tipo === 'carrossel' && imagens.length > 3) {
-    mostrarToast('Selecione no máximo 3 imagens para o carrossel.', false);
+    mostrarToast('Selecione no máximo 3 imagens.', false);
     return;
   }
   if (!imagens || imagens.length === 0) {
@@ -34,13 +39,11 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
-  const botao = form.querySelector('button[type="submit"]');
   botao.disabled = true;
-  botao.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
+  botao.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
 
   try {
     const urls = await uploadParaImgBB(imagens);
-
     const agora = new Date();
     const nomeDocumento = `postagem-${agora.toLocaleDateString('pt-BR').replace(/\//g, '-')}-${agora.toLocaleTimeString('pt-BR').replace(/:/g, '-')}`;
 
@@ -52,23 +55,24 @@ form.addEventListener('submit', async (event) => {
       criadoEm: serverTimestamp()
     });
 
-    mostrarToast('Postagem criada com sucesso!', true);
+    mostrarToast('Postagem criada com sucesso!');
     form.reset();
+    carregarPostagens();
   } catch (error) {
     console.error('Erro ao criar postagem:', error);
-    mostrarToast('Erro ao criar postagem. Veja o console.', false);
+    mostrarToast('Erro ao criar postagem.', false);
   } finally {
     botao.disabled = false;
     botao.innerHTML = 'Postar';
   }
 });
 
+// FAZ UPLOAD PARA IMGBB
 async function uploadParaImgBB(files) {
   const urls = [];
 
   for (const file of files) {
     const base64 = await converterParaBase64(file);
-
     const formData = new FormData();
     formData.append('image', base64.split(',')[1]);
 
@@ -97,6 +101,7 @@ function converterParaBase64(file) {
   });
 }
 
+// MOSTRAR MENSAGEM TOAST
 function mostrarToast(mensagem, sucesso = true) {
   const toastElement = document.getElementById('toastFeedback');
   const toastMensagem = document.getElementById('toastMensagem');
@@ -108,3 +113,70 @@ function mostrarToast(mensagem, sucesso = true) {
   const toast = new bootstrap.Toast(toastElement);
   toast.show();
 }
+
+// CARREGAR LISTA DE POSTAGENS
+async function carregarPostagens() {
+  const container = document.getElementById('container_postagens_comunicados');
+  container.innerHTML = '';
+
+  const querySnapshot = await getDocs(collection(db, 'postagens'));
+  querySnapshot.forEach((docSnap) => {
+    const data = docSnap.data();
+    const id = docSnap.id;
+
+    const card = document.createElement('div');
+    card.className = 'card mb-3 p-3 shadow-sm';
+    card.style.cursor = 'pointer';
+    card.innerHTML = `
+      <h5 class="mb-1">${data.titulo || 'Sem título'}</h5>
+      <p class="mb-2 text-muted">${data.descricao || ''}</p>
+      <div class="d-flex flex-wrap gap-2">
+        ${(Array.isArray(data.imagens) ? data.imagens : []).map(url => `<img src="${url}" style="max-width: 100px;">`).join('')}
+      </div>
+    `;
+
+    card.addEventListener('click', () => abrirModalEdicao(id, data));
+    container.appendChild(card);
+  });
+}
+
+// ABRIR MODAL DE EDIÇÃO
+function abrirModalEdicao(id, data) {
+  document.getElementById('editTitulo').value = data.titulo || '';
+  document.getElementById('editDescricao').value = data.descricao || '';
+  idPostagemEditando = id;
+
+  const modal = new bootstrap.Modal(document.getElementById('modalEdicao'));
+  modal.show();
+}
+
+// SALVAR ALTERAÇÃO
+document.getElementById('formEdicao').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const titulo = document.getElementById('editTitulo').value;
+  const descricao = document.getElementById('editDescricao').value;
+
+  if (!idPostagemEditando) return;
+
+  try {
+    const ref = doc(db, 'postagens', idPostagemEditando);
+    const snapshot = await getDoc(ref);
+    const dados = snapshot.exists() ? snapshot.data() : {};
+
+    await setDoc(ref, {
+      ...dados,
+      titulo,
+      descricao
+    });
+
+    mostrarToast('Postagem editada com sucesso!');
+    bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
+    carregarPostagens();
+    idPostagemEditando = null;
+  } catch (error) {
+    console.error('Erro ao editar:', error);
+    mostrarToast('Erro ao editar postagem.', false);
+  }
+});
+
+carregarPostagens();
