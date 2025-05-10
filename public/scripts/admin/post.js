@@ -12,6 +12,11 @@ const botao = form.querySelector('button[type="submit"]');
 
 let imagensEditando = []; // Lista temporária de imagens durante a edição
 
+const agora = new Date();
+const dia = String(agora.getDate()).padStart(2, '0');
+const mes = String(agora.getMonth() + 1).padStart(2, '0');
+const ano = agora.getFullYear();
+const data = `${dia}/${mes}/${ano}`;
 
 // ImgBB Key
 const imgbbApiKey = '1c831eb1cc58b3068fbda9cea52ac2e2';
@@ -51,13 +56,14 @@ form.addEventListener('submit', async (event) => {
     const agora = new Date();
     const nomeDocumento = `postagem-${agora.toLocaleDateString('pt-BR').replace(/\//g, '-')}-${agora.toLocaleTimeString('pt-BR').replace(/:/g, '-')}`;
 
-    await setDoc(doc(db, 'postagens', nomeDocumento), {
-      titulo,
-      descricao,
-      tipo,
-      imagens: urls,
-      criadoEm: serverTimestamp()
-    });
+  await setDoc(doc(db, 'postagens', nomeDocumento), {
+    titulo,
+    descricao,
+    tipo,
+    imagens: urls,
+    criadoEm: serverTimestamp(),
+    data // aqui está a data em yyyy-mm-dd
+  });
 
     mostrarToast('Postagem criada com sucesso!');
     form.reset();
