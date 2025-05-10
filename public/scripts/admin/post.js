@@ -220,4 +220,21 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
   }
 });
 
+document.getElementById('btnExcluirPostagem').addEventListener('click', async () => {
+  if (!idPostagemEditando) return;
+
+  if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
+
+  try {
+    await deleteDoc(doc(db, 'postagens', idPostagemEditando));
+    mostrarToast('Postagem excluída com sucesso!');
+    bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
+    carregarPostagens();
+    idPostagemEditando = null;
+  } catch (error) {
+    console.error('Erro ao excluir:', error);
+    mostrarToast('Erro ao excluir postagem.', false);
+  }
+});
+
 carregarPostagens();
