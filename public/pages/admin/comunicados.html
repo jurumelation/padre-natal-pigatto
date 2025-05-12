@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Postagem</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- CSS. -->
+  <link href="../../styles/admin/post.css" rel="stylesheet">
+</head>
+
+
+
+
+<body class="animate__animated animate__fadeIn">
+
+  <div id="particles-js"></div>
+
+  <div class="container">
+
+    <h2 class="mb-4 animate__animated animate__fadeInDown">Criar Comunicado</h2>
+
+    <form>
+      <!-- Título -->
+      <div class="mb-3 animate__animated animate__fadeInUp animate__delay-1s">
+        <label for="titulo" class="form-label">Título</label>
+        <input type="text" class="inputs form-control" id="titulo" placeholder="Digite o título..." />
+      </div>
+
+      <!-- Descrição -->
+      <div class="mb-3 animate__animated animate__fadeInUp animate__delay-2s">
+        <label for="descricao" class="form-label">Descrição</label>
+        <textarea class="inputs form-control" id="descricao" rows="4" placeholder="Escreva algo..."></textarea>
+      </div>
+
+      <!-- Tipo de Postagem -->
+      <div class="mb-3 animate__animated animate__fadeInUp animate__delay-3s">
+        <label class="form-label">Tipo de Comunicado com Imagem</label>
+        <select class="inputs form-select" id="tipoPostagem" onchange="atualizarInputs()">
+          <option value="">Selecione um tipo</option>
+          <option value="unica">Imagem Única</option>
+          <option value="carrossel">Carrossel (até 3 imagens)</option>
+          <option value="album">Álbum de Fotos</option>
+        </select>
+      </div>
+
+      <!-- Imagem Única -->
+      <div class="mb-3 d-none" id="grupoUnica">
+        <label for="imagemUnica" class="form-label">Escolha a imagem</label>
+        <input class="inputs form-control" type="file" id="imagemUnica" accept="image/*" onchange="previewImagem(this, 'previewUnica')" />
+        <div id="previewUnica" class="d-flex flex-wrap mt-2"></div>
+      </div>
+
+      <!-- Carrossel -->
+      <div class="mb-3 d-none" id="grupoCarrossel">
+        <label for="imagensCarrossel" class="form-label">Escolha até 3 imagens</label>
+        <input class="inputs form-control" type="file" id="imagensCarrossel" accept="image/*" multiple onchange="previewImagem(this, 'previewCarrossel')" />
+        <div id="previewCarrossel" class="d-flex flex-wrap mt-2"></div>
+      </div>
+
+      <!-- Álbum -->
+      <div class="mb-3 d-none" id="grupoAlbum">
+        <label for="imagensAlbum" class="form-label">Selecione as imagens do álbum</label>
+        <input class="inputs form-control" type="file" id="imagensAlbum" accept="image/*" multiple onchange="previewImagem(this, 'previewAlbum')" />
+        <div id="previewAlbum" class="d-flex flex-wrap mt-2"></div>
+      </div>
+
+      <!-- Botão -->
+      <button type="submit" class="btn btn-success shadow mt-3 animate__animated animate__pulse animate__infinite">Postar</button>
+    </form>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toastFeedback" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body" id="toastMensagem">Postagem criada com sucesso!</div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- HTML principal omitido para focar no necessário -->
+
+  <div class="container mt-5">
+    <h3 class="mb-3">Comunicado Cadastradas</h3>
+    <div id="container_postagens_comunicados" class="row gy-3">
+      <!-- As postagens serão inseridas aqui via JS -->
+    </div>
+  </div>
+
+  <!-- Toast para feedback -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div id="toastFeedback" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toastMensagem">Mensagem de feedback</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal de Edição -->
+
+  <div class="modal fade" id="modalEdicao" tabindex="-1" aria-labelledby="modalEdicaoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <form id="formEdicao">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalEdicaoLabel">Editar Postagem</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="editTitulo" class="form-label">Título</label>
+              <input type="text" class="form-control" id="editTitulo" required />
+            </div>
+            <div class="mb-3">
+              <label for="editDescricao" class="form-label">Descrição</label>
+              <textarea class="form-control" id="editDescricao" rows="4" required></textarea>
+            </div>
+            <div id="editImagensContainer" class="d-flex flex-wrap gap-2 mb-3">
+              <!-- As imagens serão inseridas aqui via JavaScript -->
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Salvar Alterações</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" id="btnExcluirPostagem">Excluir Postagem</button>
+
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Scripts -->
+  <script>
+    function atualizarInputs() {
+      const tipo = document.getElementById("tipoPostagem").value;
+
+      document.getElementById("grupoUnica").classList.add("d-none");
+      document.getElementById("grupoCarrossel").classList.add("d-none");
+      document.getElementById("grupoAlbum").classList.add("d-none");
+
+      document.getElementById("previewUnica").innerHTML = '';
+      document.getElementById("previewCarrossel").innerHTML = '';
+      document.getElementById("previewAlbum").innerHTML = '';
+
+      if (tipo === "unica") {
+        document.getElementById("grupoUnica").classList.remove("d-none");
+      } else if (tipo === "carrossel") {
+        document.getElementById("grupoCarrossel").classList.remove("d-none");
+      } else if (tipo === "album") {
+        document.getElementById("grupoAlbum").classList.remove("d-none");
+      }
+    }
+
+    function previewImagem(input, targetId) {
+      const container = document.getElementById(targetId);
+      container.innerHTML = '';
+      if (input.files) {
+        [...input.files].forEach(file => {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.classList.add("preview-img", "animate__animated", "animate__zoomIn");
+            container.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    }
+  </script>
+
+  <!-- Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": { "value": 200, "density": { "enable": true, "value_area": 800 } },
+        "color": { "value": "#3786e1" },
+        "shape": { "type": "circle" },
+        "opacity": { "value": 0.4 },
+        "size": { "value": 3, "random": true },
+        "line_linked": {
+          "enable": true,
+          "distance": 130,
+          "color": "#3786e1",
+          "opacity": 0.3,
+          "width": 1
+        },
+        "move": { "enable": true, "speed": 2 }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "grab": { "distance": 140, "line_linked": { "opacity": 0.5 } },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+    </script>
+    <script type="module" src="../../scripts/admin/comunicados.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
