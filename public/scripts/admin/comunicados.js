@@ -31,10 +31,10 @@ form.addEventListener('submit', async (event) => {
 
   const dataComunicadoInput = document.getElementById('dataComunicado');
   const dataComunicado = dataComunicadoInput?.value || '';
-  const data = new Date(dataComunicado);
-  const dataFormatada = !isNaN(data) ? data.toISOString().split('T')[0] : '';
+  const data_rabudo = new Date(dataComunicado);
+  const data = !isNaN(data_rabudo) ? data_rabudo.toISOString().split('T')[0] : '';
 
-  console.log("Data formatada:", dataFormatada);
+  console.log("Data formatada:", data_rabudo);
 
   let imagens = [];
   if (tipo === 'unica') {
@@ -65,7 +65,7 @@ form.addEventListener('submit', async (event) => {
     tipo,
     imagens: urls,
     criadoEm: serverTimestamp(),
-    dataFormatada // aqui está a data em yyyy-mm-dd
+    data // aqui está a data em yyyy-mm-dd
   });
 
     mostrarToast('comunicados criada com sucesso!');
