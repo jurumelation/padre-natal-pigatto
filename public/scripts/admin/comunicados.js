@@ -12,11 +12,8 @@ const botao = form.querySelector('button[type="submit"]');
 
 let imagensEditando = []; // Lista temporária de imagens durante a edição
 
-const dataComunicado = document.getElementById('dataComunicado').value;
-// Já vem no formato yyyy-mm-dd se o tipo for "date"
-console.log("Data formatada:", dataComunicado);
-const data = new Date(document.getElementById('dataComunicado').value);
-const dataFormatada = data.toISOString().split('T')[0]; // yyyy-mm-dd
+
+
 
 // ImgBB Key
 const imgbbApiKey = '1c831eb1cc58b3068fbda9cea52ac2e2';
@@ -29,6 +26,15 @@ form.addEventListener('submit', async (event) => {
   const titulo = tituloInput.value;
   const descricao = descricaoInput.value;
   const tipo = tipoSelect.value;
+
+
+
+  const dataComunicadoInput = document.getElementById('dataComunicado');
+  const dataComunicado = dataComunicadoInput?.value || '';
+  const data = new Date(dataComunicado);
+  const dataFormatada = !isNaN(data) ? data.toISOString().split('T')[0] : '';
+
+  console.log("Data formatada:", dataFormatada);
 
   let imagens = [];
   if (tipo === 'unica') {
