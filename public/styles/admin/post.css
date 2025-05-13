@@ -78,3 +78,23 @@ label {
     border: none;
     border-radius: 25px;
 }
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-wrapper i {
+  position: absolute;
+  left: 10px;
+  color: var(--primary);
+}
+
+.input-with-icon {
+  padding-left: 32px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}

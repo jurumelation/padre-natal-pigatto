@@ -12,8 +12,12 @@ const botao = form.querySelector('button[type="submit"]');
 
 let imagensEditando = []; // Lista temporária de imagens durante a edição
 
-const agora = new Date();
-const data = agora.toISOString().split('T')[0]; // yyyy-mm-dd
+const dataComunicado = document.getElementById('dataComunicado').value;
+// Já vem no formato yyyy-mm-dd se o tipo for "date"
+console.log("Data formatada:", dataComunicado);
+const data = new Date(document.getElementById('dataComunicado').value);
+const dataFormatada = data.toISOString().split('T')[0]; // yyyy-mm-dd
+
 // ImgBB Key
 const imgbbApiKey = '1c831eb1cc58b3068fbda9cea52ac2e2';
 let idPostagemEditando = null;
@@ -39,10 +43,7 @@ form.addEventListener('submit', async (event) => {
     mostrarToast('Selecione no máximo 3 imagens.', false);
     return;
   }
-  if (!imagens || imagens.length === 0) {
-    mostrarToast('Nenhuma imagem selecionada.', false);
-    return;
-  }
+
 
   botao.disabled = true;
   botao.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Enviando...';
@@ -58,7 +59,7 @@ form.addEventListener('submit', async (event) => {
     tipo,
     imagens: urls,
     criadoEm: serverTimestamp(),
-    data // aqui está a data em yyyy-mm-dd
+    dataFormatada // aqui está a data em yyyy-mm-dd
   });
 
     mostrarToast('comunicados criada com sucesso!');
