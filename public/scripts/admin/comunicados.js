@@ -68,7 +68,7 @@ form.addEventListener('submit', async (event) => {
     data // aqui está a data em yyyy-mm-dd
   });
 
-    mostrarToast('comunicados criada com sucesso!');
+    mostrarToast('Comunicados criado com sucesso!');
     form.reset();
     carregarPostagens();
   } catch (error) {
