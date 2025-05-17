@@ -232,17 +232,17 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
 document.getElementById('btnExcluirPostagem').addEventListener('click', async () => {
   if (!idPostagemEditando) return;
 
-  if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
+  if (!confirm('Tem certeza que deseja excluir este comunicado?')) return;
 
   try {
     await deleteDoc(doc(db, 'comunicados', idPostagemEditando));
-    mostrarToast('Postagem excluída com sucesso!');
+    mostrarToast('Comunicado excluído com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
   } catch (error) {
     console.error('Erro ao excluir:', error);
-    mostrarToast('Erro ao excluir postagem.', false);
+    mostrarToast('Erro ao excluir comunicado.', false);
   }
 });
 
