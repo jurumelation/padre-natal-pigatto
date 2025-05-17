@@ -218,7 +218,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
       imagens: imagensEditando
     });
 
-    mostrarToast('comunicados editada com sucesso!');
+    mostrarToast('Comunicado editado com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
