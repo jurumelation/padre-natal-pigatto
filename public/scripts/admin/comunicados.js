@@ -68,7 +68,7 @@ form.addEventListener('submit', async (event) => {
     data // aqui está a data em yyyy-mm-dd
   });
 
-    mostrarToast('comunicados criada com sucesso!');
+    mostrarToast('Comunicado criado com sucesso!');
     form.reset();
     carregarPostagens();
   } catch (error) {
@@ -218,7 +218,7 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
       imagens: imagensEditando
     });
 
-    mostrarToast('comunicados editada com sucesso!');
+    mostrarToast('Comunicado editado com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
@@ -232,17 +232,17 @@ document.getElementById('formEdicao').addEventListener('submit', async (e) => {
 document.getElementById('btnExcluirPostagem').addEventListener('click', async () => {
   if (!idPostagemEditando) return;
 
-  if (!confirm('Tem certeza que deseja excluir esta postagem?')) return;
+  if (!confirm('Tem certeza que deseja excluir este comunicado?')) return;
 
   try {
     await deleteDoc(doc(db, 'comunicados', idPostagemEditando));
-    mostrarToast('Postagem excluída com sucesso!');
+    mostrarToast('Comunicado excluído com sucesso!');
     bootstrap.Modal.getInstance(document.getElementById('modalEdicao')).hide();
     carregarPostagens();
     idPostagemEditando = null;
   } catch (error) {
     console.error('Erro ao excluir:', error);
-    mostrarToast('Erro ao excluir postagem.', false);
+    mostrarToast('Erro ao excluir comunicado.', false);
   }
 });
 
