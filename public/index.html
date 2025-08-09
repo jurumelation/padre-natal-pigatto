@@ -1,12 +1,5 @@
-<!-- ================================================== -->
-
-<!-- HTML. -->
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-    <!-- ================================================== -->
-
-    <!-- Header. -->
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -20,15 +13,7 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link href="styles/index.css" rel="stylesheet">
     </head>
-
-    <!-- ================================================== -->
-
-    <!-- Body. -->
     <body class="scroll-smooth">
-
-        <!-- ================================================== -->
-
-        <!-- Navbar -->
         <header class="fixed top-0 w-full bg-white shadow z-50">
             <nav class="flex flex-wrap justify-around gap-2 sm:gap-4 p-4 text-center">
                 <a href="#inicio" class="nav-bar-links text-xs sm:text-sm">
@@ -39,13 +24,6 @@
                 <a href="#postagens" class="nav-bar-links text-xs sm:text-sm">
                     <strong>Postagens <span class="sm:inline">🤳</span></strong>
                 </a>
-                <!-- 
-                <a href="#equipe" class="nav-bar-links text-xs sm:text-sm">
-                    <strong>Equipe <span class="sm:inline">👥</span></strong>
-                </a> 
-                <a href="#contato" class="nav-bar-links text-xs sm:text-sm">
-                    <strong>Contato <span class="sm:inline">📞</span></strong>
-                </a> -->
                 <a href="#historia" class="nav-bar-links text-xs sm:text-sm">
                     <strong>História <span class="sm:inline">📖</span></strong>
                 </a>
@@ -54,15 +32,7 @@
                 </a>
             </nav>
         </header>
-
-        <!-- ================================================== -->
-
-        <!-- Sessões. -->
         <main class="pt-14">
-
-            <!-- ================================================== -->
-
-            <!-- Início. -->
             <section id="inicio" class="-mt-14 relative h-screen bg-cover bg-center" style="background-image: url('images/index_inicio.jpg');">
                 <div class="absolute inset-0 bg-black bg-opacity-60"></div>
                 <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
@@ -74,18 +44,10 @@
                     </p>
                 </div>
             </section>
-
-            <!-- ================================================== -->
-
-            <!-- Comunicados. -->
             <section id="comunicados" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
                 <h1 class="titulo-comunicados text-3xl font-bold opacity-0">Comunicados 📢</h1>
                 <div id="calendario" class="calendario-comunicados opacity-0 w-full max-w-[95vw] sm:max-w-5xl mx-auto mt-12 px-2 sm:px-0"></div>
             </section>
-
-            <!-- ================================================== -->
-
-            <!-- Postagens. -->
             <section id="postagens" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
                 <h1 class="titulo-postagens text-3xl font-bold mb-4">Postagens 🤳</h1>
                 <div class="postagens-lista opacity-0 h-[75vh] overflow-y-auto space-y-6 pr-2"></div>
@@ -105,70 +67,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- ================================================== -->
-
-            <!-- Equipe. 
-            <section id="equipe" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
-                <h1 class="titulo-equipe text-3xl font-bold mb-4">Equipe 👥</h1>
-                <div class="equipe-carrousel opacity-0">
-                    <div class="swiper equipe-swiper mt-6">
-                        <div class="swiper-wrapper"> -->
-
-                            <!-- ================================================== -->
-
-                            <!-- Professor 1. 
-                            <div class="swiper-slide flex justify-center">
-                                <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[40rem] flex flex-col items-center text-center">
-                                    <img src="images/index_historia_2.jpg" alt="Nome" class="w-40 h-40 rounded-full object-cover border-4 border-[rgb(155,182,255)] shadow mb-6">
-                                    <h3 class="font-semibold text-xl">Prof. 1</h3>
-                                    <p class="text-base text-gray-600 mt-2">
-                                        Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
-                                        a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
-                                        que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
-                                        local e também nomeia uma importante avenida do município.
-                                    </p>
-                                </div>
-                            </div> -->
-
-                            <!-- ================================================== -->
-
-                            <!-- Professor 2. 
-                            <div class="swiper-slide flex justify-center">
-                                <div class="bg-white rounded-2xl p-8 w-72 sm:w-80 md:w-[28rem] lg:w-[36rem] xl:w-[40rem] flex flex-col items-center text-center">
-                                    <img src="images/index_historia_2.jpg" alt="Nome" class="w-40 h-40 rounded-full object-cover border-4 border-[rgb(155,182,255)] shadow mb-6">
-                                    <h3 class="font-semibold text-xl">Prof. 2</h3>
-                                    <p class="text-base text-gray-600 mt-2">
-                                        Instituição histórica - Fundada em 1895, a Escola Padre Natal Pigatto é 
-                                        a mais antiga escola de Campo Largo e seu nome é em homenagem ao missionário italiano Natal Pigatto, 
-                                        que atuou na região entre 1895 e 1926. Ele é lembrado por sua importante contribuição à comunidade 
-                                        local e também nomeia uma importante avenida do município.
-                                    </p>
-                                </div>
-                            </div> -->
-
-                            <!-- ================================================== -->
-
-                        <!-- </div>
-                        <div class="swiper-pagination mt-4"></div>
-                    </div>
-                </div>
-            </section> -->
-
-            <!-- ================================================== -->
-
-            <!-- Contato. 
-            <section id="contato" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
-                <h1 class="titulo-contato text-3xl font-bold mb-4 opacity-0">Contato 📞</h1>
-                <a href="https://www.instagram.com/pigattonatal/" class="links flex gap-1 items-center">
-                    <img src="images/instagram_icon.png" class="w-7">
-                    <strong>Instagram</strong>
-                </a>
-            </section> -->
-
-            <!-- ================================================== -->
-
-            <!-- História da escola. -->
             <section id="historia" class="scroll-mt-12 min-h-screen p-8 bg-gray-200">
                 <h1 class="historia-titulo text-3xl font-bold mb-4 opacity-0">Nossa História 📖</h1>
                 <p class="historia-paragrafo opacity-0">
@@ -204,10 +102,6 @@
                     </div>
                 </div>
             </section>
-
-            <!-- ================================================== -->
-
-            <!-- Footer. -->
             <section id="footer" class="bg-[rgb(55,134,225)] w-full flex items-center justify-center p-4 text-white">
                 <div id="footer_columns" class="flex flex-col md:flex-row gap-6 md:gap-10 text-sm md:text-base">
                     <div id="coluna_contato" class="gap-2 flex flex-col">
@@ -246,13 +140,7 @@
                     </div>
                 </div>
             </section>
-
-        <!-- Fecha sessões. -->
         </main>
-
-        <!-- ================================================== -->
-
-        <!-- Modal de comunicados. -->
         <div id="modalComunicado" class="fixed inset-0 z-50 bg-black/50 hidden">
             <div class="flex items-center justify-center w-full h-full p-4">
                 <div class="bg-white rounded-xl max-w-4xl w-full p-6 max-h-[90vh] overflow-y-auto relative shadow-lg">
@@ -270,20 +158,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- ================================================== -->
-
-    <!-- Fecha o Body. -->
     </body>
-
-    <!-- ================================================== -->
-
-    <!-- Script. -->
     <script type="module" src="scripts/index.js"></script>
-
-    <!-- ================================================== -->
-
-<!-- Fecha o HTML. -->
 </html>
-
-<!-- ================================================== -->
